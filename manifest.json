@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
 	"name": "Youtube Remember",
-	"version": "1.1",
-  
+	"version": "1.2",
+
 	"description": "When pausing a Youtube video, it will change the URL to be for the specific time when you paused the video, allowing you to continue watching later, even after restarting the browser",
 	
 	"icons": {
