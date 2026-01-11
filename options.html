@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Youtube Remember Settings</title>
+		<link rel="stylesheet" href="options.css">
+	</head>
+	<body>
+		<noscript class="red-text">You need scripts</noscript>
+	
+		<div class="setting">
+			<input type="checkbox" id="enableeverything" checked>
+			Enable extension <br/>
+			<span class="explanation">Turning this off disables everything the extension does</span>
+		</div>
+		
+		<div class="setting">
+			<input type="checkbox" id="autosaveenabled">
+			Autosave every
+			<input type="number" id="autosaveinterval" min="1" value="5">
+			seconds <br/>
+			<span class="explanation"><span class="important-explanation">Enabling this will <i>completely flood</i> your browser history</span> (one entry for every autosave), however if consider that to be worth the peace of mind of never losing your progress unless something very unexpected happens, go ahead!</span>
+		</div>
+
+		<p id="message" class="red-text"></p>
+
+		<details>
+			<summary>Advanced settings</summary>
+			<div class="setting">
+				Don't save in the first
+				<input type="number" id="dontsaveuntil" min="0" value="5">
+				seconds <br/>
+				<span class="explanation">So that if you open a video and then pause it immediately ("I'll watch this tommorow so I open it now to remember") it restarts from the start when you reload.
+					<br> Also helps keep history slightly cleaner (the video may also pause randomly (eg. other extensions and buffering) before it starts and this helps to not log that)</span>
+			</div>
+
+			<div class="setting">
+				<input type="checkbox" id="ignorelivestreams" checked>
+				Don't run on active livestreams (runs on VODs anyways) <br/>
+				<span class="explanation">There's no real reason to turn this off</span>
+			</div>
+		</details>
+	
+		<script src="options.js"></script>
+	</body>
+</html>

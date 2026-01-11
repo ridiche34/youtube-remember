@@ -1,0 +1,21 @@
+body {
+	font-family: Arial, sans-serif;
+	padding: 20px;
+	width: 500px;
+	background-color: #303435; /*Discord please don't sue me*/
+	color: #fff;
+	font-size: 20px;
+}
+.setting {
+	margin-bottom: 15px;
+}
+.explanation {
+	color: #707070;
+	font-size: 16px;
+}
+.important-explanation {
+	color: #aa0;
+}
+.red-text {
+	color: #f55;
+}
