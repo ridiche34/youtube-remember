@@ -1,8 +1,7 @@
-browser.storage.sync.get(["enableeverything", "autosaveenabled", "autosaveinterval",
-		"dontsaveuntil", "ignorelivestreams"]).then((settings) => {
-	if (settings.dontsaveuntil === null)
-		settings.dontsaveuntil = 5;
-	if (settings.enableeverything === false)
+import { loadSettings } from "./settings.js";
+
+loadSettings().then((settings) => {
+	if (!settings.enableeverything)
 		return;
 
 	function updateURLWithTimestamp(videoElement) {
@@ -23,7 +22,7 @@ browser.storage.sync.get(["enableeverything", "autosaveenabled", "autosaveinterv
 	}
 
 	function tryToSave(videoElement) {
-		if (settings.ignorelivestreams === false)
+		if (!settings.ignorelivestreams) // yes it is inverted
 			updateURLWithTimestamp(videoElement);
 		else
 		{
