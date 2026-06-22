@@ -1,5 +1,3 @@
-import { linkSettings } from "./settings.js";
-
 document.addEventListener("DOMContentLoaded", function () {
 	const message = document.getElementById("message");
 

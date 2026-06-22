@@ -1,5 +1,3 @@
-import { loadSettings } from "./settings.js";
-
 loadSettings().then((settings) => {
 	if (!settings.enableeverything)
 		return;

@@ -1,4 +1,4 @@
-export const SETTINGS_DEFAULTS = {
+const SETTINGS_DEFAULTS = {
 	enableeverything: true,
 	autosaveenabled: false,
 	autosaveinterval: 5,
@@ -17,15 +17,16 @@ function setValue(element, value) {
 	else element.value = value;
 }
 
-function clampElement(element) {
+function clampElement(element, allowEmpty) {
 	if (element.type !== "number") return;
+	if (element.value === "" && allowEmpty) return;
 	let v = Number(element.value);
 	if (element.min !== "" && v < Number(element.min)) v = Number(element.min);
 	if (element.max !== "" && v > Number(element.max)) v = Number(element.max);
 	element.value = v;
 }
 
-export function linkSettings(bindings, onSave) {
+function linkSettings(bindings, onSave) {
 	const keys = bindings.map(b => b.key);
 
 	browser.storage.sync.get(keys).then((data) => {
@@ -37,20 +38,23 @@ export function linkSettings(bindings, onSave) {
 	function save() {
 		const obj = {};
 		for (const { key, element } of bindings) {
-			clampElement(element);
+			clampElement(element, false);
 			obj[key] = getValue(element);
 		}
 		browser.storage.sync.set(obj).then(onSave);
 	}
 
 	for (const { element } of bindings) {
-		element.addEventListener("input", save);
-		if (element.type === "number")
-			element.addEventListener("blur", () => { clampElement(element); save(); });
+		if (element.type === "number") {
+			element.addEventListener("input", () => clampElement(element, true));
+			element.addEventListener("blur", save);
+		} else {
+			element.addEventListener("input", save);
+		}
 	}
 }
 
-export function loadSettings() {
+function loadSettings() {
 	return browser.storage.sync.get(Object.keys(SETTINGS_DEFAULTS)).then((data) => {
 		const result = {};
 		for (const key of Object.keys(SETTINGS_DEFAULTS))
