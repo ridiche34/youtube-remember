@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Youtube Remember",
 	"version": "2.0",
-  
+
 	"description": "When pausing a Youtube video, it will change the URL to be for the specific time when you paused the video, allowing you to continue watching later, even after restarting the browser",
 	
 	"icons": {
@@ -14,8 +14,8 @@
 	"permissions": ["storage"],
 
 	"options_ui": {
-    	"page": "options.html",
-    	"open_in_tab": false
+		"page": "options.html",
+		"open_in_tab": false
 	},
 
 	"browser_action": {
@@ -31,9 +31,8 @@
 
 	
 	"browser_specific_settings": {
-  		"gecko": {
-   	 		"id": "{d2849fc9-8daf-4a5d-a3c5-019295b8b53e}"
-  		}
+		"gecko": {
+			"id": "{d2849fc9-8daf-4a5d-a3c5-019295b8b53e}"
+		}
 	}
-  }
-  
+}
