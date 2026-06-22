@@ -6,24 +6,34 @@ const SETTINGS_DEFAULTS = {
 	ignorelivestreams: true,
 };
 
-function getValue(element) {
+function clampNumberBox(element, allowEmpty) {
+	if (element.type !== "number") throw new TypeError("clampNumberBox must be called on a number box");
+	
+	let v = Number(element.value);
+	if (element.value === "") v = NaN;
+	
+	if (isNaN(v)) {
+		if (!allowEmpty)
+			return element.value = element.min; // I sure do hope I don't add a numberbox which can be negative sometime later or I will regret this
+		return Number(element.min);
+	}
+
+	if (element.min !== "" && v < Number(element.min)) element.value = element.min;
+	if (element.max !== "" && v > Number(element.max)) element.value = element.max;
+	return Number(element.value);
+}
+
+function getValueAndClamp(element) {
 	if (element.type === "checkbox") return element.checked;
-	if (element.type === "number") return Number(element.value);
+	if (element.type === "number") {
+		return clampNumberBox(element, true);
+	}
 	return element.value;
 }
 
 function setValue(element, value) {
 	if (element.type === "checkbox") element.checked = value;
 	else element.value = value;
-}
-
-function clampElement(element, allowEmpty) {
-	if (element.type !== "number") return;
-	if (element.value === "" && allowEmpty) return;
-	let v = Number(element.value);
-	if (element.min !== "" && v < Number(element.min)) v = Number(element.min);
-	if (element.max !== "" && v > Number(element.max)) v = Number(element.max);
-	element.value = v;
 }
 
 function linkSettings(bindings, onSave) {
@@ -38,16 +48,15 @@ function linkSettings(bindings, onSave) {
 	function save() {
 		const obj = {};
 		for (const { key, element } of bindings) {
-			clampElement(element, false);
-			obj[key] = getValue(element);
+			obj[key] = getValueAndClamp(element);
 		}
 		browser.storage.sync.set(obj).then(onSave);
 	}
 
 	for (const { element } of bindings) {
 		if (element.type === "number") {
-			element.addEventListener("input", () => clampElement(element, true));
-			element.addEventListener("blur", save);
+			element.addEventListener("input", save);
+			element.addEventListener("blur", () => clampNumberBox(element, false));
 		} else {
 			element.addEventListener("input", save);
 		}

@@ -20,7 +20,7 @@ loadSettings().then((settings) => {
 	}
 
 	function tryToSave(videoElement) {
-		if (!settings.ignorelivestreams) // yes it is inverted
+		if (!settings.ignorelivestreams) // wait no nvm this isnt inverted. the label is correct.
 			updateURLWithTimestamp(videoElement);
 		else
 		{
@@ -40,7 +40,7 @@ loadSettings().then((settings) => {
 	const targetNode = document.body;
 	const config = { childList: true, subtree: true };
 
-	let videoElementExists = false;
+	let videoElementExists = null;
 	let autosaveIntervalId = null;
 
 	// Function to handle the presence or absence of the element
@@ -60,7 +60,7 @@ loadSettings().then((settings) => {
 					clearInterval(autosaveIntervalId);
 				}
 				// make new interval
-				setInterval(() => {
+				autosaveIntervalId = setInterval(() => {
 					if (!videoElement.paused)
 						tryToSave(videoElement);
 				}, settings.autosaveinterval*1000);
